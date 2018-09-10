@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoginEditView">
+        <!--底部的线的颜色-->
+        <attr name="lineColor" format="color" />
+        <!--输入框文字的颜色-->
+        <attr name="textColor" format="color" />
+    </declare-styleable>
+</resources>
