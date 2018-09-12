@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageView;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,7 +17,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, Animation.AnimationListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     private AppCompatButton loginYes;
 
@@ -23,6 +28,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppCompatEditText username;
 
     private AppCompatEditText password;
+
+    private AppCompatImageView clearPwd;
+
+    private AppCompatImageView eyesOpen;
+
+    private AppCompatImageView eyesClose;
+
+    private AppCompatImageView clearUsername;
 
     private LinearLayout bottomLayout;
 
@@ -37,6 +50,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation fadeOut;
 
     private Animation logoMove;
+
+    private boolean isPwdClear = true;
+
+    private boolean isUserClear = true;
+
+    private TextWatcher pwdWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //Log.e("TAG", "beforeTextChanged: " + s + "\t" + start + "\t" + count + "\t" + after);
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //Log.e("TAG", "onTextChanged: "  + s + "\t" + start + "\t" + count + "\t" + before);
+            if (count >= 1) {
+                isPwdClear = false;
+                pwdEditViewStatus(isPwdClear);
+            } else if (start == 0 && count == 0){
+                isPwdClear = true;
+                pwdEditViewStatus(isPwdClear);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            //Log.e("TAG", "afterTextChanged: " + s);
+        }
+    };
+
+    private TextWatcher userWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (count >= 1) {
+                isUserClear = false;
+                userEditViewStatus(isUserClear);
+            } else if (start == 0 && count == 0){
+                isUserClear = true;
+                userEditViewStatus(isUserClear);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    private Animation.AnimationListener logoMoveListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            logoLayout1.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginLayout = findViewById(R.id.login_layout);
         logoLayout = findViewById(R.id.logo_layout);
         logoLayout1 = findViewById(R.id.logo_layout_1);
+        clearPwd = findViewById(R.id.password_clear);
+        eyesOpen = findViewById(R.id.password_eyes_open);
+        eyesClose = findViewById(R.id.password_eyes_close);
+        clearUsername = findViewById(R.id.username_clear);
 
         fadeIn = AnimationUtils.loadAnimation(this,R.anim.fade_in);
         fadeOut = AnimationUtils.loadAnimation(this,R.anim.fade_out);
@@ -70,7 +155,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginYes.setOnClickListener(this);
         regYes.setOnClickListener(this);
         loginButton.setOnClickListener(this);
-        logoMove.setAnimationListener(this);
+        clearPwd.setOnClickListener(this);
+        eyesOpen.setOnClickListener(this);
+        eyesClose.setOnClickListener(this);
+        clearUsername.setOnClickListener(this);
+
+        logoMove.setAnimationListener(logoMoveListener);
+
+        password.setOnFocusChangeListener(this);
+        username.setOnFocusChangeListener(this);
+
+        password.addTextChangedListener(pwdWatcher);
+        username.addTextChangedListener(userWatcher);
     }
 
     @Override
@@ -90,23 +186,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_login:
                 Toast.makeText(this, "功能开发中敬请期待...", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.password_clear:
+                password.setText("");
+                isPwdClear = true;
+                pwdEditViewStatus(isPwdClear);
+                break;
+            case R.id.password_eyes_open:
+                password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+                eyesOpen.setVisibility(View.GONE);
+                eyesClose.setVisibility(View.VISIBLE);
+                break;
+            case R.id.password_eyes_close:
+                password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                eyesClose.setVisibility(View.GONE);
+                eyesOpen.setVisibility(View.VISIBLE);
+                break;
+            case R.id.username_clear:
+                username.setText("");
+                isUserClear = true;
+                userEditViewStatus(isUserClear);
+                break;
             default:
                 break;
         }
     }
 
     @Override
-    public void onAnimationStart(Animation animation) {
-
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()) {
+            case R.id.edit_password:
+                if (hasFocus) {
+                    eyesClose.setVisibility(View.VISIBLE);
+                    pwdEditViewStatus(isPwdClear);
+                } else {
+                    eyesClose.setVisibility(View.GONE);
+                    pwdEditViewStatus(true);
+                }
+                break;
+            case R.id.edit_username:
+                if (hasFocus) {
+                    userEditViewStatus(isUserClear);
+                } else {
+                    userEditViewStatus(true);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        logoLayout1.setVisibility(View.VISIBLE);
+    private void pwdEditViewStatus(boolean b){
+        if (b) {
+            clearPwd.setVisibility(View.GONE);
+        } else {
+            clearPwd.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
+    private void userEditViewStatus(boolean b){
+        if (b) {
+            clearUsername.setVisibility(View.GONE);
+        } else {
+            clearUsername.setVisibility(View.VISIBLE);
+        }
     }
 }
