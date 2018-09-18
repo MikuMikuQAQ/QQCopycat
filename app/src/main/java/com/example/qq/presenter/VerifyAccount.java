@@ -32,14 +32,21 @@ public class VerifyAccount implements IVerifyAccount {
                     Log.e("TAG", "run: " );
                     if (pwd != null && !pwd.isEmpty()) {
                         Log.e("TAG", "run: " );
-                        List<DbUser> dbUser = LitePal.where("username = ?",user).find(DbUser.class);
-                        if (dbUser.size() == 0) {
+                        List<DbUser> dbUsers = LitePal.where("username = ?",user).find(DbUser.class);
+                        if (dbUsers.size() == 0) {
                             Log.e("TAG", "run: " );
-                            DbUser dbUser1 = new DbUser();
-                            dbUser1.setUsername(user);
-                            dbUser1.setPassword(pwd);
-                            dbUser1.setStatus(1);
-                            if (dbUser1.save()){
+                            List<DbUser> dbUsers1 = LitePal.where("status = ?","1").find(DbUser.class);
+                            if (dbUsers1.size() == 0){
+                            }else {
+                                ContentValues values = new ContentValues();
+                                values.put("status","0");
+                                LitePal.updateAll(DbUser.class,values,"username = ?",dbUsers1.get(0).getUsername());
+                            }
+                            DbUser dbUser = new DbUser();
+                            dbUser.setUsername(user);
+                            dbUser.setPassword(pwd);
+                            dbUser.setStatus(1);
+                            if (dbUser.save()){
                                 Log.e("TAG", "run: " );
                                 mainView.callBack(1);
                             } else {
@@ -48,7 +55,7 @@ public class VerifyAccount implements IVerifyAccount {
                             }
                         } else {
                             Log.e("TAG", "run: " );
-                            if (dbUser.get(0).getPassword().equals(pwd)){
+                            if (dbUsers.get(0).getPassword().equals(pwd)){
                                 Log.e("TAG", "run: " );
                                 ContentValues values = new ContentValues();
                                 values.put("status","1");

@@ -145,7 +145,7 @@
                 android:textColorHint="@color/colorFont"
                 android:textColor="@color/colorFont"
                 android:background="@null"
-                android:digits="abcdefghijklmnopqrstuvwxyz123456789@.-_"
+                android:digits="abcdefghijklmnopqrstuvwxyz1234567890@.-_"
                 android:textCursorDrawable="@drawable/edit_cursor"/>
 
         <com.example.qq.LoginEditView
