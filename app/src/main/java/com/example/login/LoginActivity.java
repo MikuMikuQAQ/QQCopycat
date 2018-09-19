@@ -1,7 +1,6 @@
-package com.example.qq;
+package com.example.login;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -12,20 +11,19 @@ import android.support.v7.widget.AppCompatImageView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.example.qq.presenter.IReadAccount;
-import com.example.qq.presenter.IVerifyAccount;
-import com.example.qq.presenter.ReadAccount;
-import com.example.qq.presenter.VerifyAccount;
+import com.example.login.presenter.IReadAccount;
+import com.example.login.presenter.IVerifyAccount;
+import com.example.login.presenter.ReadAccount;
+import com.example.login.presenter.VerifyAccount;
 import org.litepal.tablemanager.Connector;
 
-public class MainActivity extends AppCompatActivity implements IMainView, View.OnClickListener, View.OnFocusChangeListener {
+public class LoginActivity extends AppCompatActivity implements ILoginView, View.OnClickListener, View.OnFocusChangeListener {
 
     private IVerifyAccount verifyAccount;
 
@@ -151,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, View.O
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         verifyAccount = new VerifyAccount(this, this);
         readAccount = new ReadAccount(this,this);

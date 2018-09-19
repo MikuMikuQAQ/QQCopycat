@@ -1,8 +1,6 @@
-package com.example.qq;
+package com.example.login;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
 

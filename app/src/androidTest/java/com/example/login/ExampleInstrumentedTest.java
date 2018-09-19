@@ -1,4 +1,4 @@
-package com.example.qq;
+package com.example.login;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

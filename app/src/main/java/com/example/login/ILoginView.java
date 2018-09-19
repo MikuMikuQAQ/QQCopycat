@@ -1,6 +1,6 @@
-package com.example.qq;
+package com.example.login;
 
-public interface IMainView {
+public interface ILoginView {
 
     void callBack(int num);
 

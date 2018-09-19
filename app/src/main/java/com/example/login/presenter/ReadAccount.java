@@ -1,8 +1,8 @@
-package com.example.qq.presenter;
+package com.example.login.presenter;
 
 import android.content.Context;
 import com.example.database.model.DbUser;
-import com.example.qq.IMainView;
+import com.example.login.ILoginView;
 import org.litepal.LitePal;
 
 import java.util.List;
@@ -11,13 +11,13 @@ public class ReadAccount implements IReadAccount {
 
     private Context context;
 
-    private IMainView mainView;
+    private ILoginView mainView;
 
-    public ReadAccount(IMainView mainView) {
+    public ReadAccount(ILoginView mainView) {
         this.mainView = mainView;
     }
 
-    public ReadAccount(Context context, IMainView mainView) {
+    public ReadAccount(Context context, ILoginView mainView) {
         this.context = context;
         this.mainView = mainView;
     }

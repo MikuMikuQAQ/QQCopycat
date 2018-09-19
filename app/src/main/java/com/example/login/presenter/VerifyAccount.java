@@ -1,12 +1,11 @@
-package com.example.qq.presenter;
+package com.example.login.presenter;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 import com.example.database.model.DbUser;
-import com.example.qq.IMainView;
+import com.example.login.ILoginView;
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
 import java.util.List;
 
@@ -14,13 +13,13 @@ public class VerifyAccount implements IVerifyAccount {
 
     private Context context;
 
-    private IMainView mainView;
+    private ILoginView mainView;
 
-    public VerifyAccount(IMainView mainView) {
+    public VerifyAccount(ILoginView mainView) {
         this.mainView = mainView;
     }
 
-    public VerifyAccount(Context context, IMainView mainView) {
+    public VerifyAccount(Context context, ILoginView mainView) {
         this.context = context;
         this.mainView = mainView;
     }
