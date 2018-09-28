@@ -1,7 +1,6 @@
 package com.example.main.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.login.R;
 import com.example.main.model.ContactDatabase;
+import com.example.main.view.RoundImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         ContactDatabase database = databaseList.get(i);
         viewHolder.name.setText(database.getName());
         viewHolder.num.setText(database.getPhoneNum());
-        Glide.with(viewHolder.view).load(R.drawable.mikumiku).into(viewHolder.imageView);
+        Glide.with(viewHolder.view).load(R.drawable.bigmiku).into(viewHolder.imageView);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
         AppCompatTextView num;
 
-        AppCompatImageView imageView;
+        RoundImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
