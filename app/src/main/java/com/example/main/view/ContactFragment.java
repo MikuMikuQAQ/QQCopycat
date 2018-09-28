@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import com.example.login.R;
 import com.example.main.adapter.ContactAdapter;
 import com.example.main.model.ContactDatabase;
@@ -31,6 +32,8 @@ public class ContactFragment extends Fragment implements IContactFragment {
     private ContactAdapter adapter;
 
     private RecyclerView recyclerView;
+
+    private TextView titleView;
 
     public static ContactFragment newInstance(){
         ContactFragment fragment = new ContactFragment();
@@ -61,10 +64,16 @@ public class ContactFragment extends Fragment implements IContactFragment {
     }
 
     private void initView(View view){
+        titleView = view.findViewById(R.id.title_view);
+
         recyclerView = view.findViewById(R.id.contact_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(manager);
         adapter = new ContactAdapter(view.getContext(),databaseList);
         recyclerView.setAdapter(adapter);
+        if (databaseList!=null && databaseList.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            titleView.setVisibility(View.VISIBLE);
+        }
     }
 }
